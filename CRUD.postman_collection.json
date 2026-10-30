@@ -1,0 +1,342 @@
+{
+  "info": {
+    "_postman_id": "4ac042fc-da0c-4f82-96d7-8a239fb169e1",
+    "name": "A - Faham Assessment",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "43717278",
+    "_collection_link": "https://go.postman.co/collection/43717278-4ac042fc-da0c-4f82-96d7-8a239fb169e1?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "POST /token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Parse the response body\nconst response = pm.response.json();\n\n// Validate the response structure\npm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\n\npm.test(\"Response has accessToken\", function () {\n    pm.expect(response).to.have.property(\"accessToken\");\n});\n\n// Save accessToken to environment variable\nif (response.accessToken) {\n    pm.environment.set(\"accessToken\", response.accessToken);\n}\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "Admin123",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "pw0rD!123456",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\t\"type\": \"object\",\r\n\t\"properties\": {\r\n\t\t\"name\": {\r\n\t\t\t\"type\": \"string\",\r\n\t\t\t\"minLength\": 1\r\n\t\t},\r\n\t\t\"email\": {\r\n\t\t\t\"type\": \"string\",\r\n\t\t\t\"minLength\": 1\r\n\t\t},\r\n\t\t\"nickName\": {\r\n\t\t\t\"type\": \"string\",\r\n\t\t\t\"minLength\": 0\r\n\t\t}\r\n\t},\r\n\t\"required\": [\r\n\t\t\"name\",\r\n\t\t\"email\"\r\n\t]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://dev-unity-uks-test-mock-api.uksouth.azurecontainer.io:3000/token",
+          "protocol": "http",
+          "host": [
+            "dev-unity-uks-test-mock-api",
+            "uksouth",
+            "azurecontainer",
+            "io"
+          ],
+          "port": "3000",
+          "path": [
+            "token"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET /users",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Get response body\r\nconst response = pm.response.json();\r\n\r\n// Get the ID from the first object in the array\r\nconst userId = response[0].id;\r\n\r\n// Save ID to environment variable\r\npm.environment.set(\"userId\", userId);\r\n\r\n// Log the value in Postman Console\r\nconsole.log(\"User ID:\", userId);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://dev-unity-uks-test-mock-api.uksouth.azurecontainer.io:3000/users",
+          "protocol": "http",
+          "host": [
+            "dev-unity-uks-test-mock-api",
+            "uksouth",
+            "azurecontainer",
+            "io"
+          ],
+          "port": "3000",
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET /users/{userId}",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://dev-unity-uks-test-mock-api.uksouth.azurecontainer.io:3000/users/{{userId}}",
+          "protocol": "http",
+          "host": [
+            "dev-unity-uks-test-mock-api",
+            "uksouth",
+            "azurecontainer",
+            "io"
+          ],
+          "port": "3000",
+          "path": [
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST /users",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\t\"type\": \"object\",\r\n\t\"properties\": {\r\n\t\t\"name\": {\r\n\t\t\t\"type\": \"string\",\r\n\t\t\t\"minLength\": \"Juan Dela Cruz\"\r\n\t\t},\r\n\t\t\"email\": {\r\n\t\t\t\"type\": \"string\",\r\n\t\t\t\"minLength\": \"Test@gmail.com\"\r\n\t\t},\r\n\t\t\"nickName\": {\r\n\t\t\t\"type\": \"string\",\r\n\t\t\t\"minLength\": \"Juan\"\r\n\t\t}\r\n\t},\r\n\t\"required\": [\r\n\t\t\"name\",\r\n\t\t\"email\"\r\n\t]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://dev-unity-uks-test-mock-api.uksouth.azurecontainer.io:3000/users",
+          "protocol": "http",
+          "host": [
+            "dev-unity-uks-test-mock-api",
+            "uksouth",
+            "azurecontainer",
+            "io"
+          ],
+          "port": "3000",
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT /users",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Juan Dela Cruz\",\r\n    \"email\": \"Test@gmail.com\",\r\n    \"nickName\": \"Juan Del\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://dev-unity-uks-test-mock-api.uksouth.azurecontainer.io:3000/users",
+          "protocol": "http",
+          "host": [
+            "dev-unity-uks-test-mock-api",
+            "uksouth",
+            "azurecontainer",
+            "io"
+          ],
+          "port": "3000",
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE /users/{userId}",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://dev-unity-uks-test-mock-api.uksouth.azurecontainer.io:3000/users/{{userId}}",
+          "protocol": "http",
+          "host": [
+            "dev-unity-uks-test-mock-api",
+            "uksouth",
+            "azurecontainer",
+            "io"
+          ],
+          "port": "3000",
+          "path": [
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Insert common headers",
+          "pm.request.headers.add({key: \"X-Ihis-Platform\", value: \"POSTMAN\"})",
+          "pm.request.headers.add({key: \"X-Ihis-ClientMessageId\", value: pm.environment.get('messageId')})",
+          "pm.request.headers.add({key: \"X-Ihis-ApiTime\", value: pm.environment.get('apiTime')})",
+          "pm.request.headers.add({key: pm.environment.get('headerKey-ApiKey'), value: pm.environment.get('apiKey')})",
+          "pm.request.headers.add({key: \"Authorization\", value: pm.environment.get('authorization')})"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "path",
+      "value": "https://cns-ccdp-uat.apps.ccdp-uat-1.zytp.p1.openshiftapps.com",
+      "disabled": true
+    },
+    {
+      "key": "apiKeyHeader",
+      "value": "X-Ihis-ApiKey"
+    },
+    {
+      "key": "hhApiKey",
+      "value": "dcvhrbc9e9hy2h2jgy38vvw96uvhsdt99tqe7a2uqx3t3k2hdn2prkh2de27rmhkvbuxbstraja422yjjjn82ea82eqqk3bb6sfexcamf6g7mcjvptec3g5zddya66sj"
+    },
+    {
+      "key": "tokenIdS0400704B",
+      "value": "TokenId kxnOoEyqucmPxeOo"
+    },
+    {
+      "key": "notificationId",
+      "value": ""
+    },
+    {
+      "key": "notificationDeviceId",
+      "value": ""
+    },
+    {
+      "key": "notificationDeviceAppId",
+      "value": ""
+    }
+  ]
+}
